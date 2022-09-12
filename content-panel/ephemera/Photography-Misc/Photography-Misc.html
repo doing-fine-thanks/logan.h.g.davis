@@ -6,11 +6,11 @@
 
     <style>
         body {
-            padding: 5%;
+            overflow: scroll;
         }
 
         img {
-            width: 70%;
+            width: 100%;
             height: auto;
             margin-left: auto;
             margin-right: auto;
@@ -19,26 +19,82 @@
 
         .flex-container {
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
             margin-bottom: 5%;
         }
 
-        .pot-image {
-            width: 65%;
+        .resizeable-image {
+            width: 60%;
         }
 
         .text-description {
             padding-left: 50px;
+            align-self: flex-end;
         }
     </style>
 </head>
 <body>
 <h1>Misc Photography:</h1>
-<img src="photos/Glenstone,%202022.jpg">
-<img src="photos/LA,%202021.jpg">
-<img src="photos/Liv,%202021.jpg">
-<img src="photos/New%20York,%202021.jpg">
-<img src="photos/The%20Happy%20Fits,%202022.jpg">
+
+
+
+<div class="flex-container">
+    <div class="resizeable-image">
+        <a href="photos/LA,%202021.jpg" target="_parent">
+            <img src="photos/LA,%202021.jpg" alt="Telephone Poles - LA, 2021" title="Click to Enlarge">
+        </a>
+    </div>
+    <div class="text-description">
+        <i>LA, 2021</i>
+    </div>
+</div>
+
+
+<div class="flex-container">
+    <div class="resizeable-image">
+        <a href="photos/Liv,%202021.jpg" target="_parent">
+            <img src="photos/Liv,%202021.jpg" alt="A lady, posing" title="Click to Enlarge">
+        </a>
+    </div>
+    <div class="text-description">
+        <i>Liv Hockaday, 2021</i>
+    </div>
+</div>
+
+
+<div class="flex-container">
+    <div class="resizeable-image">
+        <a href="photos/New%20York,%202021.jpg" target="_parent">
+            <img src="photos/New%20York,%202021.jpg" alt="A mirror." title="Click to Enlarge">
+        </a>
+    </div>
+    <div class="text-description">
+        <i>New York, 2021</i>
+    </div>
+</div>
+
+
+
+<div class="flex-container">
+    <div class="resizeable-image">
+        <a href="photos/Glenstone,%202022.jpg" target="_parent">
+            <img src="photos/Glenstone,%202022.jpg" alt="The Glenstone Fields" title="Click to Enlarge">
+        </a>
+    </div>
+    <div class="text-description">
+        <i>Glenstone - Potomac MD, 2022</i>
+    </div>
+</div>
+
+
+<div class="flex-container">
+    <div class="resizeable-image">
+        <a href="photos/The%20Happy%20Fits,%202022.jpg" target="_parent">
+            <img src="photos/The%20Happy%20Fits,%202022.jpg" alt="The Happy Fits" title="Click to Enlarge">
+        </a>
+    </div>
+    <div class="text-description">
+        <i>The Happy Fits, 2021</i>
+    </div>
+</div>
 </body>
 </html>
