@@ -36,11 +36,30 @@
         }
 
     </style>
+    <script>
+        let canNowSavePlace = false;
+
+        const redirectIfHash = () => {
+            const contentIframe = document.getElementById("content");
+            let urlAfterHash = document.location.hash.substring(1);
+            if(urlAfterHash && urlAfterHash !== contentIframe.contentWindow.location.href) {
+                contentIframe.contentWindow.location.href = urlAfterHash;
+            }
+            canNowSavePlace = true;
+        }
+
+        const setURLHash = () => {
+            if(canNowSavePlace) {
+                const contentIframe = document.getElementById("content");
+                document.location.hash = contentIframe.contentWindow.location.href;
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="redirectIfHash()">
 <span>
 <iframe id="nav-bar" class="full-height" src="nav-bar/Nav-Bar.html">content panel</iframe>
-<iframe id="content" class="full-height" name="content" src="content-panel/personal-pages/About-Me/About-Me.html">nav bar</iframe>
+<iframe id="content" class="full-height" onLoad="setURLHash()" name="content" src="content-panel/personal-pages/About-Me/About-Me.html">nav bar</iframe>
 </span>
 </body>
 </html>
