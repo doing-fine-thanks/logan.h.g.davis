@@ -113,12 +113,64 @@
     be the chunks used for the video switching) and to help focus my editing on a second pass when creating transitions between
     the clips.
 </p>
-
-<b>TBC...</b>
-<!--<h4>Proof of Concept:</h4>
+<h4>Proof of Concept:</h4>
 <p>
     While doing the course edit and clip making, I tried making a demo of the harness that would orchestrate the video switching.
-    I ultimately wanted the videos to be plain-jane
-</p>-->
+    I ultimately wanted the videos to be plain-jane MPEG4s so I could leverage the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video">html5 video api</a>
+    instead of having to deal with some kind of library. This meant the elements would be handled by some harness driven by a configuration
+    to specify the clips and their transitions. <i>Release</i> used a transpiler to generate a bootstrap function to generate the
+    graph walk, but I wanted to fully separate code deployment from application state for <i>Verna Gray</i>. So I worked
+    out a serviceable configuration language in JSON:
+</p>
+<pre>
+    "clips": {
+        "$some_name_for_the_clip": {
+            "file": "$the_clips_actual_file_path.mp4",
+            "transitions": [
+                {
+                    "name": "$a_name_for_the_transition_to_help_debugging",
+                    "jump_from_timestamp": 290, // <- when to leave the current clip
+                    "jump_to_clip": "$the_name_of_the_clip_to_go_to",
+                    "jump_to_timestamp": 0 // <- What timestamp to jump into on the new clip
+                }
+            ]
+        }
+    ...
+</pre>
+<p>
+    The initial harness used <code>SetInterval</code> to queue up the transitions for the videos. The basic idea is that
+    when a user kicks off the initial video, the harness would randomly choose a walk through the configuration. It would
+    then go step by step, keeping track of the time and set intervals for a function to run with predefined arguments so it
+    would interact with the correct video clips. The time had to be kept during this setup because each successive transition
+    needed to be offset by the length of the walk that lead to it. For example, if a clip was 7 seconds long but transitioned
+    after a 30-second clip, its interval had to be set to 37 seconds instead of 7. You might be starting to see how this was
+    a poor choice. I initially went this route because I used <code>SetInterval</code> in <i>Release</i> to manage the
+    dyslexia effects. It was perfect there because none of the effects depended on the timing of any other, so they could just
+    happen in isolation. The dependence of clips in <i>Verna Gray</i> made this a nightmare for debugging. This interval
+    centric method also made it <i>so you couldn't pause the video</i>. The intervals didnt pause when the video did, so
+    they would just keep firing away without warning.
+</p>
+<p>
+    Ultimately I ended up switching to using <code>.ontimeupdate</code> instead. This allowed the videos to read
+    from a manifest of transition and set up <b>just the next jump</b> and only transition once <b> the
+    current videos timestamp matched the timestamp in the config</b>. No timing offsets, no issues pausing video, and
+    a much easier time debugging. It also had the benefit of being much easier in optimizing when to get rid of videos
+    after they played to save memory.
+</p>
+<p>
+    I initially tested with a small set of demo clips, but after seeing it work, I paused developing it anymore until
+    I had the interview footage in hand.
+</p>
+<h4>Analog Editing</h4>
+<p>
+    While doing the course edit and clip making, I tried making a demo of the harness that would orchestrate the video switching.
+    I ultimately wanted the videos to be plain-jane MPEG4s so I could leverage the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video">html5 video api</a>
+    instead of having to deal with some kind of library. This meant the elements would be handled by some harness driven by a configuration
+    to specify the clips and their transitions. <i>Release</i> used a transpiler to generate a bootstrap function to generate the
+    graph walk, but I wanted to fully separate code deployment from application state for <i>Verna Gray</i>. So I worked
+    out a serviceable configuration language in JSON:
+</p>
+
+
 </body>
 </html>
