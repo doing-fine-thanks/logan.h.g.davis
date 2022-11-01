@@ -7,6 +7,7 @@
     <style>
         body {
             padding: 5%;
+            margin-right: 15%;
         }
 
         img {
@@ -21,26 +22,103 @@
 <body>
 <h1> Statement: </h1>
 <p>
-    Verna is a documentary both of my family maternal family history and of my grandmother's story telling.
+    <i>Verna Gray</i> is a documentary both of my family maternal family history and of my grandmother's story telling.
     There have been prior attempts to catalog the story of how the family ended up in Jutland, New Jersey,
     but each attempt failed because one simple fact: a lot of people were doing a lot of things, all at
     the same time.
-
+</p>
+<p>
     My grandmother has been the wrangler of these narrative threads. Her stories weave in between decades,
     countries, and center figures. Her weaving of these events makes it evident that no codex could
-    convey the tapestry of lives that landed my family were they are.
-
-    This project builds on the structure-as-tangent principles I used in projects like <a href="Scitter-Scatter/Scitter-Scatter.html"><i>Scitter Scatter</i></a>.
+    convey the tapestry of lives that landed my family were they are.  This project builds on the
+    structure-as-tangent principles I used in projects like <a href="Release/Release.html"><i>Release</i></a>.
     Its tangents are crafted so any ending is a valid one, so this non-linearity is exploration, not
-    failure (like it is in other interactive video projects such as Netflix's <i>Bandersnatch</i>).
-
+    failure (like it is in other interactive video projects such as Netflix's <a href="https://en.wikipedia.org/wiki/Black_Mirror:_Bandersnatch"></a><i>Bandersnatch</i></a>).
+</p>
+<p>
     The structure, which will be talked about in greater depth in the technical section, takes inspiration
     from Italo Calvino's <i>Invisible Cities</i>. Though rather than a conversation that moves either by
     conversational-order or by city, the traversal of this video moves conversational-order or by semantic
     subject (Sam Barlow's <i>Immortality</i>).
 </p>
 
-<h2>Technical Discussion:</h2>
-TBD
+<h2>Process Discussion:</h2>
+<h4>Intro:</h4>
+<p>
+    In the Fall of 2021 I say down with my grandmother and recorder her going through the family
+    history over the course of 4 days. The end result was 8 hours of video that darted between people,
+    places, decades, and tense. The only way I could think to properly archive all the stories
+    she during our conversations was to organize it in a tree of tangents: the way it was told.
+</p>
+<h4>The Bandwidth Issue and Clip Organization:</h4>
+<p>
+    The initial editing pass was just cutting out b-roll, silent periods, and sections that were specifically
+    requested to be removed. This resulted in about 6 hours of usable video. During that initial cut editing
+    process, I was developing a way to show all of this footage in a tree structure. Having done  <a href="Release/Release.html"><i>Release</i></a>,
+    I know the impact the technical constraints of a projects' presentation affects it's editing process. It
+    was a notable burden with just text, so I assumed that friction between editing and distribution would
+    only be heightened with video.
+</p>
+<p>
+    The constraints of I targeted when initially exploring implementations was this:
+    <ul>
+        <li>Only having the user download the video they will watch.</li>
+        <li>Minimizing duplication of watched footage. ~6 hours of video streamed is non-functional on a low bandwidth connection.</li>
+        <li>Minimal buffering between transitions.</li>
+    </ul>
+</p>
+<p>
+    5 hours of video, even compressed for the web, is prohibitively large. For reference, the final 720p exports
+    of the footage still takes ~27 gigabytes of storage. It's a lot to shove over the wire.
+</p>
+<p>
+    Initially I thought about having one long video that would jump to the timestamp appropriate, but it caused
+    extremely long buffering times to load in the new section of video. There are <a href="https://www.w3.org/TR/media-frags/"> media fragments</a>
+    but you can't load multiple fragments in a single video (it just loads a single fragment at a time), so there
+    was no tangible benefit from it for this use-case.
+</p>
+<p>
+    Another option could have been having two videos that would swap with one being the actively playing video and
+    the other being a buffer that would load the next section and then swap in once the transition took place. Again
+    this runs into the issue of controlling loading and bandwidth. You can't alter media fragments because that causes
+    the <a href="https://stackoverflow.com/questions/53948385/using-media-fragments-and-preventing-the-browser-from-reloading-the-targeted-htm"> video element to reload</a>.
+    Between the metadata exchange and the reindexing into the file, the management of fragment boundaries seems like too
+    much overhead for the payoff. Without some boundary for the buffering-non-active video, it can over-buffer past the
+    footage actually needed. This would lead to large duplication of data which <b>yet again causes bandwidth issues</b>.
+</p>
+<p>
+    The only reasonable method when I was building this seemed to be:
+    <ul>
+        <li>Slice up the video into sections.</li>
+        <li>Have each section, once loaded, trigger the loading of a next section in a hidden video element.</li>
+        <li>At the transition, swap the now loaded video in.</li>
+        <li>Delete the old video.</li>
+        <li>Repeat.</li>
+    </ul>
+    This had the benefit of only ever loading the footage collection once in worst-case. In average case it would
+    load less because the vast majority of footage traversals would not use every clip, and thus they would be
+    skipped (and not requested) altogether. This method had major implications for the actual editing process,
+    but this seemed to be the simplest distribution of the video.
+</p>
+<h4>The Raw Footage Editing Process:</h4>
+<p>
+    This first task in editing the video was breaking down the raw footage into clips and loosely categorizing them.
+    The editing program I used was <a href="https://www.adobe.com/products/premiere/campaign/pricing.html?sdid=KKQOM&mv=search&ef_id=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE:G:s&s_kwcid=AL!3085!3!383822034468!e!!g!!adobe%20premier!1712852043!83993219448&mv=search&gclid=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE">Adobe Premier</a>.
+    Premier allows the <a href="https://nofilmschool.com/premiere-pro-tagging-workflow">extension of clip metadata to include tags</a>, which I used as a way to do more fine-grain categorizing.
+</p>
+<img src="images/premier_interface.png">
+<p>
+    The tagging process was not meant as a tool transition edits as much as it was a census of topics that came up through
+    my grandmother's stories. The initial pass was just to break the footage down into logic chunks (which would ultimately
+    be the chunks used for the video switching) and to help focus my editing on a second pass when creating transitions between
+    the clips.
+</p>
+
+<b>TBC...</b>
+<!--<h4>Proof of Concept:</h4>
+<p>
+    While doing the course edit and clip making, I tried making a demo of the harness that would orchestrate the video switching.
+    I ultimately wanted the videos to be plain-jane
+</p>-->
 </body>
 </html>
