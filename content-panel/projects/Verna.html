@@ -178,16 +178,116 @@
     I initially tested with a small set of demo clips, but after seeing it work, I paused developing it anymore until
     I had the interview footage in hand.
 </p>
-<h4>Analog Editing</h4>
+<h4>Marks The Spot:</h4>
 <p>
-    While doing the course edit and clip making, I tried making a demo of the harness that would orchestrate the video switching.
-    I ultimately wanted the videos to be plain-jane MPEG4s so I could leverage the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video">html5 video api</a>
-    instead of having to deal with some kind of library. This meant the elements would be handled by some harness driven by a configuration
-    to specify the clips and their transitions. <i>Release</i> used a transpiler to generate a bootstrap function to generate the
-    graph walk, but I wanted to fully separate code deployment from application state for <i>Verna Gray</i>. So I worked
-    out a serviceable configuration language in JSON:
+    Once the initial clips were cut in Premier, I used "<a href="https://helpx.adobe.com/premiere-pro/using/markers.html">marks</a>"
+    to notate the timestamps of when subjects had a good point the segue from. For example a natural pause in
+    conversation just after finishing a point about Jack Silsby has a mark to say "we can jump from here to
+    another clip about Jack." At this point I found the x2 playback option and things went pretty quickly.
 </p>
-
+    <img src="images/premier_marks.png">
+<p>
+    The reason I didn't mark the points of entry for the clips ("we can <i>start</i> talking about Jack here")
+    is because the entrance might want to be different based on the end of the clip that jumps to it. Given
+    that possible inconsistency, I decided to leave that "point of entrance" marking until later.
+</p>
+<p>
+    I ended up exporting the markers on the clips to use with a custom script to generate a base config for the
+    harness to just play through all the clips (IE: 1 would play in its entirety, transition to the beginning
+    of clip 2, and so on). This gave us our base traversal.
+</p>
+<h4>Analog Editing (Part 1):</h4>
+<p>
+    Now I wish I could say I made some grand program for organizing all the transitions, but I didn't.
+    This part, to me, really is the editing process for this project and I, having never done it at this
+    size before, decided to not spend the time working on an interface for a process I had never done.
+    Instead, I broke out a notebook and sketched the thing out:
+</p>
+<img src="images/structure.png">
+<p>
+    I've been calling this a "Linear Grid Chart" which doesn't make totally sense, but is the best I got right
+    now. I sort of thought about it as a musical staff and the audience as some monophonic synth weaving around.
+    The rules for traversal were different from a staff though:
+<p>
+<ol>
+    <li>You can move right on your current line.</li>
+    <li>You can move right or left to any line below your current position.</li>
+    <li>You cannot move up to a prior line, even if you skipped over it prior.</li>
+    <li>You cannot move left on your current line, even if you skipped over it prior</li>
+</ol>
+<p>
+    The direction of the traversal over this Linear Grid Chart can best be described as
+    "downwards and mostly left."
+</p>
+<h4>Why No Loops:</h4>
+<p>
+    The reason for this structure was to avoid loops. There are other ways, but this meant I have
+    practically 0 chance of creating a loop unless I screwed up my own rule set. The reason I so
+    doggedly wanted to avoid loops was because of what video of my grandmother repeating the same story
+    over and over would imply in the meaning of the traversal. My grandmother is cogent, and sharp.
+    A loop over stories would insinuate she has issues with memory or time, which isn't true. So
+    the rules are to avoid a mistake of creating a loop all together.
+</p>
+<h4>Analog Editing (Part 2):</h4>
+<p>
+    With the Rules in mind, I drew out the connections:
+</p>
+<img src="images/transition_sheets.png">
+<p>
+Other than looking like little like a <a href="https://cageconcert.org/wp-content/uploads/2018/11/p.-30.jpg"> John Cage composition</a>,
+the traces were fairly successful as giving me a map to append to the base configuration for the harness.
+</p>
+<p>
+    With the clips in hand, I did a third pass through the footage to figure out the time stamp each
+    transition point should jump into when moving to the new clip.
+</p>
+<h4>Hosting and Deploying the Videos:</h4>
+ <p>
+     I am a burnt out tech worker. I don't want to write CI/CD. I want to copy a file somewhere, have it run
+     and not need to think about it burning my house down because I didn't update Express.js for a security patch
+     or something.
+ </p>
+<p>
+    The hope was to figure out how to host the site as a static webpage and let HTML5 tags to the lifting for the
+    video streaming. After a quick look, <a href="https://www.digitalocean.com/"> Digital Ocean</a> ended up being
+    the hosting platform I chose. Vultr and Linode has slightly smaller Storage options (remember I need to server
+    27 gbs of video) and I literally cannot figure out how to estimate costs in AWS.
+</p>
+<p>
+    For the actual webserver, I am using <a href="https://httpd.apache.org/"> Apache "<code>httpd</code>" Server </a>
+    It is fast, easy to install, doesn't require <code>yarn</code> or <code>npm</code>, and is fine for static webpages
+    (which the project technically falls under).
+</p>
+<p>
+    That's it really. There is no js library. No reverse proxy. Nothing fancy.
+</p>
+<h4>Future Improvements:</h4>
+<p>
+    Ultimately there is an easier way to make videos like this: use a video player that can buffer in multiple
+    places.
+</p>
+<p>
+    I don't really know how to do something like that over the web, but it certainly can be done as a local app.
+    I think trying to leverage unity for the web might be able to pull it off, given the control you have over their
+    video player. But I really don't know yet. Getting the edit outside the Linear Grid Chart and instead think of
+    transitions as skips on a chronological line would free up a lot of editing burden.
+</p>
+<p>
+    I think once I settle on an editing process, building tools to auto compile a lot of this would be both easy
+    and a great accelerator of getting this kind of work together.
+</p>
+<h4>Final Notes</h4>
+<p>
+    There are a lot of other kinds of stories to be told in some structure/harness like this.
+    What about stories that loop? What about stories that let you chose which path to take?
+    What is the transition lines are generated or randomized? What if we went full cage-ian and used
+    the transition lines from one piece on another?
+</p>
+<p>
+    This single version of the video project has roughly 1,286,384,503 different permutations. And as
+    time goes on, and I add more to it: that will grow. I don't know when I tackle another video project
+    like this, but there are plenty more experiments and avenues to once I do.
+</p>
 
 </body>
 </html>
