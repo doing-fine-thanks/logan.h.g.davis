@@ -48,9 +48,9 @@
     My grandmother has been the wrangler of these narrative threads. Her stories weave in between decades,
     countries, and center figures. Her weaving of these events makes it evident that no codex could
     convey the tapestry of lives that landed my family were they are.  This project builds on the
-    structure-as-tangent principles I used in projects like <a href="Release/Release.html"><i>Release</i></a>.
+    structure-as-tangent principles I used in projects like <a href="Release/Release.html" target="_parent"><i>Release</i></a>.
     Its tangents are crafted so any ending is a valid one, so this non-linearity is exploration, not
-    failure (like it is in other interactive video projects such as Netflix's <a href="https://en.wikipedia.org/wiki/Black_Mirror:_Bandersnatch"></a><i>Bandersnatch</i></a>).
+    failure (like it is in other interactive video projects such as Netflix's <a href="https://en.wikipedia.org/wiki/Black_Mirror:_Bandersnatch" target="_parent"></a><i>Bandersnatch</i></a>).
 </p>
 <p>
     The structure, which will be talked about in greater depth in the technical section, takes inspiration
@@ -71,7 +71,7 @@
 <p>
     The initial editing pass was just cutting out b-roll, silent periods, and sections that were specifically
     requested to be removed. This resulted in about 6 hours of usable video. During that initial cut editing
-    process, I was developing a way to show all of this footage in a tree structure. Having done  <a href="Release/Release.html"><i>Release</i></a>,
+    process, I was developing a way to show all of this footage in a tree structure. Having done  <a href="Release/Release.html" target="_parent"><i>Release</i></a>,
     I know the impact the technical constraints of a projects' presentation affects it's editing process. It
     was a notable burden with just text, so I assumed that friction between editing and distribution would
     only be heightened with video.
@@ -90,7 +90,7 @@
 </p>
 <p>
     Initially I thought about having one long video that would jump to the timestamp appropriate, but it caused
-    extremely long buffering times to load in the new section of video. There are <a href="https://www.w3.org/TR/media-frags/"> media fragments</a>
+    extremely long buffering times to load in the new section of video. There are <a href="https://www.w3.org/TR/media-frags/" target="_parent"> media fragments</a>
     but you can't load multiple fragments in a single video (it just loads a single fragment at a time), so there
     was no tangible benefit from it for this use-case.
 </p>
@@ -98,7 +98,7 @@
     Another option could have been having two videos that would swap with one being the actively playing video and
     the other being a buffer that would load the next section and then swap in once the transition took place. Again
     this runs into the issue of controlling loading and bandwidth. You can't alter media fragments because that causes
-    the <a href="https://stackoverflow.com/questions/53948385/using-media-fragments-and-preventing-the-browser-from-reloading-the-targeted-htm"> video element to reload</a>.
+    the <a href="https://stackoverflow.com/questions/53948385/using-media-fragments-and-preventing-the-browser-from-reloading-the-targeted-htm" target="_parent"> video element to reload</a>.
     Between the metadata exchange and the reindexing into the file, the management of fragment boundaries seems like too
     much overhead for the payoff. Without some boundary for the buffering-non-active video, it can over-buffer past the
     footage actually needed. This would lead to large duplication of data which <b>yet again causes bandwidth issues</b>.
@@ -120,8 +120,8 @@
 <h4>The Raw Footage Editing Process:</h4>
 <p>
     This first task in editing the video was breaking down the raw footage into clips and loosely categorizing them.
-    The editing program I used was <a href="https://www.adobe.com/products/premiere/campaign/pricing.html?sdid=KKQOM&mv=search&ef_id=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE:G:s&s_kwcid=AL!3085!3!383822034468!e!!g!!adobe%20premier!1712852043!83993219448&mv=search&gclid=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE">Adobe Premier</a>.
-    Premier allows the <a href="https://nofilmschool.com/premiere-pro-tagging-workflow">extension of clip metadata to include tags</a>, which I used as a way to do more fine-grain categorizing.
+    The editing program I used was <a href="https://www.adobe.com/products/premiere/campaign/pricing.html?sdid=KKQOM&mv=search&ef_id=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE:G:s&s_kwcid=AL!3085!3!383822034468!e!!g!!adobe%20premier!1712852043!83993219448&mv=search&gclid=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE" target="_parent">Adobe Premier</a>.
+    Premier allows the <a href="https://nofilmschool.com/premiere-pro-tagging-workflow" target="_parent">extension of clip metadata to include tags</a>, which I used as a way to do more fine-grain categorizing.
 </p>
 <img src="images/premier_interface.png">
 <p>
@@ -133,7 +133,7 @@
 <h4>Proof of Concept:</h4>
 <p>
     While doing the course edit and clip making, I tried making a demo of the harness that would orchestrate the video switching.
-    I ultimately wanted the videos to be plain-jane MPEG4s so I could leverage the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video">html5 video api</a>
+    I ultimately wanted the videos to be plain-jane MPEG4s so I could leverage the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video" target="_parent">html5 video api</a>
     instead of having to deal with some kind of library. This meant the elements would be handled by some harness driven by a configuration
     to specify the clips and their transitions. <i>Release</i> used a transpiler to generate a bootstrap function to generate the
     graph walk, but I wanted to fully separate code deployment from application state for <i>Verna Gray</i>. So I worked
@@ -180,7 +180,7 @@
 </p>
 <h4>Marks The Spot:</h4>
 <p>
-    Once the initial clips were cut in Premier, I used "<a href="https://helpx.adobe.com/premiere-pro/using/markers.html">marks</a>"
+    Once the initial clips were cut in Premier, I used "<a href="https://helpx.adobe.com/premiere-pro/using/markers.html" target="_parent">marks</a>"
     to notate the timestamps of when subjects had a good point the segue from. For example a natural pause in
     conversation just after finishing a point about Jack Silsby has a mark to say "we can jump from here to
     another clip about Jack." At this point I found the x2 playback option and things went pretty quickly.
@@ -234,7 +234,7 @@
 </p>
 <img src="images/transition_sheets.png">
 <p>
-Other than looking like little like a <a href="https://cageconcert.org/wp-content/uploads/2018/11/p.-30.jpg"> John Cage composition</a>,
+Other than looking like little like a <a href="https://cageconcert.org/wp-content/uploads/2018/11/p.-30.jpg" target="_parent"> John Cage composition</a>,
 the traces were fairly successful as giving me a map to append to the base configuration for the harness.
 </p>
 <p>
@@ -249,12 +249,12 @@ the traces were fairly successful as giving me a map to append to the base confi
  </p>
 <p>
     The hope was to figure out how to host the site as a static webpage and let HTML5 tags to the lifting for the
-    video streaming. After a quick look, <a href="https://www.digitalocean.com/"> Digital Ocean</a> ended up being
+    video streaming. After a quick look, <a href="https://www.digitalocean.com/" target="_parent"> Digital Ocean</a> ended up being
     the hosting platform I chose. Vultr and Linode has slightly smaller Storage options (remember I need to server
     27 gbs of video) and I literally cannot figure out how to estimate costs in AWS.
 </p>
 <p>
-    For the actual webserver, I am using <a href="https://httpd.apache.org/"> Apache "<code>httpd</code>" Server </a>
+    For the actual webserver, I am using <a href="https://httpd.apache.org/" target="_parent"> Apache "<code>httpd</code>" Server </a>
     It is fast, easy to install, doesn't require <code>yarn</code> or <code>npm</code>, and is fine for static webpages
     (which the project technically falls under).
 </p>
