@@ -94,6 +94,14 @@
             if(canNowSavePlace) {
                 document.location.hash = contentIframe.contentWindow.location.href;
             }
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                resizeIframe(contentIframe)
+            }
+        }
+
+
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
         }
     </script>
 </head>
