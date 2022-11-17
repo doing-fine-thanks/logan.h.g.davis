@@ -7,6 +7,7 @@
     <style>
         body {
             padding-left:5%;
+            padding-bottom: 5%;
         }
 
         h1 {
@@ -25,14 +26,23 @@
             font-family: 'Inconsolata';
         }
 
-        object {
-            height:100vh;
-            width:100%;
-            margin:0
+
+        #cv {
+            padding: 5px;
+            margin-right: 15%;
+        }
+        img {
+            width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-<object type="application/pdf" data="./CV.pdf" ></object>
+<div id="cv" title="Click to download">
+<a href="./CV.pdf" download>
+<img src="CV%20-%20page%201.jpg">
+<img src="CV%20-%20page%202.jpg">
+</a>
+</div>
 </body>
 </html>
