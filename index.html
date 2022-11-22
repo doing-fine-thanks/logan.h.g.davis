@@ -49,18 +49,48 @@
             list-style-type: "├  ";
         }
 
-        #social-media-links {
+        .social-media-links {
             margin-top: auto;
             padding: 5px;
         }
 
-        #social-media-links a {
+        .social-media-bottom {
+            display: none;
+            padding: 2%;
+            min-height: 5%;
+        }
+
+        .social-media-links a img {
+            display:inline;
+            margin:auto;
+            height: 30px;
+        }
+
+
+        .social-media-bottom a img {
+            padding: 2%;
+        }
+
+        .social-media-top {
+            display: inline;
+        }
+
+        .social-media-links a {
             text-decoration: none;
         }
 
 
 
         @media only screen and (max-device-width: 480px)  {
+
+
+            .social-media-bottom {
+                display: inline;
+            }
+
+            .social-media-top {
+                display: none;
+            }
 
             #container {
                 display: grid;
@@ -80,6 +110,14 @@
                 max-width: 100%;
                 min-width: 100%;
                 height: 75vh;
+            }
+
+            .card-header {
+                margin-left: -3%;
+            }
+
+            .tree-list {
+                margin-top: 2%;
             }
         }
 
@@ -118,14 +156,14 @@
 <body onload="redirectIfHash()">
 <span id="container">
 <div id="nav-bar">
-    <h2>Logan H. G. Davis</h2>
-<ul>
+    <h2 class="card-header">Logan H. G. Davis</h2>
+<ul class="tree-list">
     <li><a href="content-panel/personal-pages/About-Me/About-Me.html" target="content">Bio</a></li>
     <li style="list-style-type:'└  '"><a href="content-panel/personal-pages/CV-Resume/CV-Resume.html" target="content">CV/Resume</a></li>
     <!--<li "><a href="../content-panel/personal-pages/Contact.html" target="content">Contact Me</a></li>-->
 </ul>
-<b>Projects</b>
-<ul>
+<b class="card-header">Projects</b>
+<ul class="tree-list">
     <li><a href="content-panel/projects/verna/Verna.html" target="content">Verna</a></li>
     <li><a href="content-panel/projects/Of-Itself/Of-Itself.html" target="content">Of Itself</a></li>
     <li><a href="content-panel/projects/I-Cant-Keep-It-Still/I-Cant-Keep-It-Still.html" target="content">I Can't Keep It Still</a></li>
@@ -135,8 +173,8 @@
     <li><a href="content-panel/projects/dev-random/dev-random.html" target="content">dev/random</a></li>
     <li style="list-style-type:'└  '"><a href="content-panel/projects/Feedback/Feedback.html" target="content">Feedback</a></li>
 </ul>
-<b>Ephemera</b>
-<ul>
+<b class="card-header">Ephemera</b>
+<ul class="tree-list">
     <li><a href="content-panel/ephemera/Select-Writing/Select-Writing.html" target="content">Writing</a></li>
     <li><a href="content-panel/ephemera/Video/Select-Video.html" target="content">Video</a></li>
     <li ><a href="content-panel/ephemera/Ceramics/Ceramics.html" target="content">Ceramics</a></li>
@@ -152,7 +190,7 @@
 
 <hr>
 
-<span id="social-media-links">
+<span class="social-media-links social-media-top" >
     <a href="mailto: logan.h.g.davis@icloud.com">
         <img src="nav-bar/social-media-icons/mail-30.png">
     </a>
@@ -170,6 +208,25 @@
 </span>
 </div>
 <iframe id="content" class="full-height" onLoad="setURLHash()" name="content" src="content-panel/personal-pages/About-Me/About-Me.html" >nav bar</iframe>
+
+
+
+<span class="social-media-links social-media-bottom" >
+    <a href="mailto: logan.h.g.davis@icloud.com">
+        <img src="nav-bar/social-media-icons/mail-30.png">
+    </a>
+    <a href="https://twitter.com/Death_by_kelp">
+        <img src="nav-bar/social-media-icons/twitter-30.png">
+    </a>
+
+    <a href="https://github.com/doing-fine-thanks">
+    <img src="nav-bar/social-media-icons/github-30.png">
+    </a>
+
+    <a href="https://www.instagram.com/logan.h.g.davis/">
+        <img src="nav-bar/social-media-icons/instagram-24.png">
+    </a>
+</span>
 </span>
 </body>
 </html>
