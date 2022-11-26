@@ -62,47 +62,58 @@
 <a href="https://notasimplestory.com" target="_parent"><img id="banner" src="./images/header.png" alt="A screen shot of the Verna Gray website"/></a>
 
 <h2> Statement: </h2>
+
+<p>This is a documentary of my family, it's past and my grandmother's storytelling.</p>
+<p>What will play is one of 1,286,384,503 different permutations through the 5 hours of
+    footage gathered to create this video.
+</p>
+<p>My grandmother will explain it best, but I will say it in my own words here:
+    my family's history isn't a straight line, it's a complicated web with different folds
+    feeling closer to the tip of our tongues each time we go to feel them.
+</p>
+<p>This is an attempt to archive my family's history through my grandmother's weaving.</p>
+
+
+
+<h2> Discussion: </h2>
 <p>
-    <i>Verna Gray</i> is a documentary of my family maternal family history and of my grandmother's story telling.
-    There have been prior attempts to catalog the story of how our family ended up in Jutland, New Jersey,
-    but each attempt failed to capture the concurrency of events. a lot of people were doing a lot of things,
-    all at the same time.
+    <i>Verna Gray</i> is a documentary of my maternal family history and of my grandmother's storytelling.
+    Other family members have attempted to our history but all of those versions were unmanageable given the
+    concurrency of events.
 </p>
 <p>
-    My grandmother has been the wrangler of these narrative threads. Her stories weave in between decades,
-    countries, and center figures. Her traversal of these events makes it evident that no codex could
-    loom together the tapestry she has committed to memory.  This project builds on the
-    structure-as-tangent principles I used in projects like <a href="../Release/Release.html" target="_parent"><i>Release</i></a>.
-    Its tangents are crafted so any ending is a valid one, so this non-linearity is an act of
-    exploration.
+    My grandmother is a wrangler of  narrative threads. Her stories weave in between decades,
+    countries, and central figures. The way she traverses these events makes it evident that no codex could
+    tie together the tapestry she has committed to memory.  This project builds on the
+    structure-as-tangent principles I used in my prior project: <a href="../Release/Release.html" target="_parent"><i>Release</i></a>.
 </p>
 <p>
-    The structure, which will be talked about in greater depth in the technical section, takes inspiration
-    from Italo Calvino's <i>Invisible Cities</i>. Though rather than a conversation escaping linearity through
+    The structure, which will I'll talk about in greater depth in the technical section, takes inspiration
+    from Italo Calvino's <i>Invisible Cities</i>. Instead of escaping linearity through
     city names, the videos transition based off of their semantic material (akin to Sam Barlow's
-    <i>Immortality</i>). People, places, and decades are the stepping stones used to skip around the video.
+    <i>Immortality</i>). People, places, and decades are the stepping stones I use to skip around the video.
 </p>
 
 <h2>Process Discussion:</h2>
 <h4>Intro:</h4>
 <p>
-    In the Fall of 2021 I sat down with my grandmother and recorder her going through the family
-    history over the course of 4 days. The end result was 8 hours of video that darted between people,
-    places, decades, and tense. The only way I could think to properly archive all the stories
-    she during our conversations was to organize it in a tree of tangents.
+    In the fall of 2021, I spent fours days  with my grandmother recording stories about the family.
+    The end result was eight hours of video that darted between people, places, decades, and tense.
+    I felt the best way archive the wide breadth of stories she brought to life in our conversations
+    was to organize it as a tree of tangents.
 </p>
 <h4>The Bandwidth Issue and Clip Organization:</h4>
 <p>
-    The initial editing pass was just cutting out b-roll, silent periods, and sections that were specifically
+    I did a first editing pass to cut out b-roll, silent periods, and sections that were specifically
     requested to be removed. This resulted in about 6 hours of usable video. During that initial cut editing
     process, I was developing a way to show all of this footage in a tree structure. Having done  <a href="../Release/Release.html" target="_parent"><i>Release</i></a>,
-    I know the impact the technical constraints of a projects' presentation affects it's editing process.
+    I know the impact that technical constraints of a projects have on it's editing process.
 </p>
 <p>
-    The constraints of I targeted when initially exploring implementations was this:
+    I initially targeted this set of constraints:
     <ul>
         <li>Only having the user download the video they will watch.</li>
-        <li>Minimizing duplication of watched footage. ~6 hours of video streamed is non-functional on a low bandwidth connection.</li>
+        <li>Minimizing duplication of watched footage. six-ish hours of video streamed is non-functional on a low bandwidth connection.</li>
         <li>Minimal buffering between transitions.</li>
     </ul>
 </p>
@@ -111,22 +122,23 @@
     of the footage still takes ~27 gigabytes of storage.
 </p>
 <p>
-    Initially I thought about having one long video that would jump to the timestamp appropriate, but it caused
-    extremely long buffering times to load in the new section of video. There are <a href="https://www.w3.org/TR/media-frags/" target="_parent"> media fragments</a>
-    but they can't load multiple fragments in a single video (browsers implemented this standard to just load a
-    single fragment at a time), so there was no tangible benefit from it for this use-case.
+    Initially I thought about having one long video that would jump to the appropriate timestamp,
+    but it caused extremely long buffering times to load in the new section of video.
+    <a href="https://www.w3.org/TR/media-frags/" target="_parent">Media fragments</a> exist,
+    but can't load multiple fragments in a single video (browsers implemented this standard to just load a
+    single fragment at a time), so there was no tangible benefit for this use-case.
 </p>
 <p>
-    Another option could have been having two videos that would swap with one being the actively playing video and
-    the other being a buffer that would load the next section and then swap in once the transition took place. Again
-    this runs into the issue of controlling loading and bandwidth. Scripts can't alter media fragments because that causes
+    Another option is having two videos which would swap with one being the actively playing video and
+    the other being a buffer that would load the next section and then swap in once the transition took place.
+    This also runs into the issue of controlling loading and bandwidth. Scripts can't alter media fragments because that causes
     the <a href="https://stackoverflow.com/questions/53948385/using-media-fragments-and-preventing-the-browser-from-reloading-the-targeted-htm" target="_parent"> video element to reload</a>.
     Between the metadata exchange and the reindexing into the file, the management of fragment boundaries seems like too
     much overhead for the payoff. Without some boundary for the buffering-non-active video, it can over-buffer past the
     footage actually needed. This would lead to large duplication of data which <b>yet again causes bandwidth issues</b>.
 </p>
 <p>
-    The only reasonable method when I was building this seemed to be:
+    The only reasonable method seemed to be:
     <ul>
         <li>Slice up the video into sections.</li>
         <li>Have each section, once loaded, trigger the loading of a next section in a hidden video element.</li>
@@ -142,7 +154,7 @@
 <h4>The Raw Footage Editing Process:</h4>
 <p>
     First was editing the video to breaking down the raw footage into clips and loosely categorizing them.
-    The editing program I used was <a href="https://www.adobe.com/products/premiere/campaign/pricing.html?sdid=KKQOM&mv=search&ef_id=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE:G:s&s_kwcid=AL!3085!3!383822034468!e!!g!!adobe%20premier!1712852043!83993219448&mv=search&gclid=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE" target="_parent">Adobe Premier</a>.
+    I used <a href="https://www.adobe.com/products/premiere/campaign/pricing.html?sdid=KKQOM&mv=search&ef_id=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE:G:s&s_kwcid=AL!3085!3!383822034468!e!!g!!adobe%20premier!1712852043!83993219448&mv=search&gclid=CjwKCAjwh4ObBhAzEiwAHzZYU16ZI_pB2Ie77w12VZSlg8cEXYbTnzXWCRmittefcMjG6FXCOB1XThoCgOQQAvD_BwE" target="_parent">Adobe Premier</a> to edit the footage.
     Premier allows the <a href="https://nofilmschool.com/premiere-pro-tagging-workflow" target="_parent">extension of clip metadata to include tags</a>, which I used as a way to do more fine-grain categorizing.
 </p>
 
@@ -153,10 +165,9 @@
     <h7><i>(click to enlarge)</i></h7>
 </div>
 <p>
-    The tagging process was not meant as a tool transition edits as much as it was a census of topics that came up through
-    my grandmother's stories. The initial pass was just to break the footage down into logic chunks (which would ultimately
-    be the chunks used for the video switching) and to help focus my editing on a second pass when creating transitions between
-    the clips.
+    I used the tagging to construct a census of topics that came up through my grandmother's stories. My initial pass was to break
+    the footage down into logic chunks (which would ultimately be the chunks used for the video switching) and to help focus my editing
+    on a second pass when creating transitions between the clips.
 </p>
 <h4>Proof of Concept:</h4>
 <p>
@@ -219,11 +230,11 @@
 </div>
 <p>
     I didn't mark the points of entry for the clips ("we can <i>start</i> talking about Jack here")
-    since the entrance to a topic might want to be different based on the end of the clip that jumps to it.
+    because the entrance to a topic might want to be different based on the end of the clip that jumps to it.
 </p>
 <h4>Analog Editing (Part 1):</h4>
 <p>
-    Now I wish I could say I made some grand program for organizing all the transitions, but I didn't.
+    I wish I could say I made some grand program for organizing all the transitions, but I didn't.
     This part, to me, really is the editing process for this project and I, having never done it at this
     size before, decided to not spend the time working on an interface for a process I had never done.
     Instead, I broke out a notebook and sketched the thing out:
@@ -289,14 +300,14 @@ the traces were fairly successful as giving me a map to append to the base confi
 <h4>Hosting and Deploying the Videos:</h4>
  <p>
      My hope in hosting a deploying this project was to make a deprecation resistant object. <i>Release</i>
-     has required more upkeep than I would like given the libraries it originally used (which have been abandon),
-     the APIs in leveraged (which were experimental when I used them and have since changed), and the audio I used
-     which has since been handicapped by Apple's mobile browser restrictions. <i>Verna Gray</i> needed to use standardized
-     and well accepted APIs. It's deployment needed to doable with standard POSIX tools. And the server needed to be
-     on a development cycle an order of magnitude slower than a server built with NPM in mind.
+     has required more upkeep than I would like given the libraries it originally used (which have been abandoned),
+     the APIs I leveraged (which were experimental when I used them and have since changed), and the audio I used
+     which has since been handicapped by Apple's mobile browser restrictions. - Thus, I prioritized using
+     standardized and well-accepted APIs in <i>Verna Gray</i>. It's deployment needed to achievable with standard POSIX tools.
+     And the server needed to be on a development cycle an order of magnitude slower than a server built with NPM in mind.
  </p>
 <p>
-    The hope was to figure out how to host the site as a static webpage and let HTML5 tags to the lifting for the
+    My hope was to figure out how to host the site as a static webpage and let HTML5 tags to the lifting for the
     video streaming. After a quick look, <a href="https://www.digitalocean.com/" target="_parent"> Digital Ocean</a> ended up being
     the hosting platform I chose. Vultr and Linode has slightly smaller Storage options (remember I need to server
     27 gbs of video) and I literally cannot figure out how to estimate costs in AWS.
@@ -317,7 +328,7 @@ the traces were fairly successful as giving me a map to append to the base confi
 <p>
     I don't really know how to do something like that over the web, but it certainly can be done as a local app.
     Trying to leverage unity for the web might be able to pull it off, given the control you have over their
-    video player. But I really don't know yet. Getting the edit outside the Linear Grid Chart and instead think of
+    video player. But I really don't know yet. Getting the edit outside the Linear Grid Chart and think of
     transitions as skips on a chronological line would free up a lot of editing burden.
 </p>
 <p>
@@ -328,13 +339,13 @@ the traces were fairly successful as giving me a map to append to the base confi
 <p>
     There are a lot of other kinds of stories to be told in some structure/harness like this.
     What about stories that loop? What about stories that let you chose which path to take?
-    What is the transition lines are generated or randomized? What if we went full cage-ian and used
+    What if the transition lines are generated or randomized? What if we went full cage-ian and used
     the transition lines from one piece on another?
 </p>
 <p>
     This single version of the video project has roughly 1,286,384,503 different permutations. And as
-    time goes on, and I add more to it: that will grow. I don't know when I tackle another video project
-    like this, but there are plenty more experiments and avenues to once I do.
+    time goes on, and I add more to it: that will grow. I don't know when I will tackle another video
+    project like this, but there are plenty more experiments and avenues to explore once I do.
 </p>
 
 </body>
